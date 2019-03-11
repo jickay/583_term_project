@@ -4,12 +4,67 @@
   <meta charset="utf-8">
     <script src="./d3.min.js"></script>
     <script src="./visualization.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        #a-container { width: 1000px; height: 800px; }
+        body { background-color:rgba(50,50,50,1.0);}
+        svg { width: 100%; height: 100%; }
+        #a-container { width: 100%; height: auto; }
+        .grid line { stroke:rgba(100,100,100,0.8); stroke-width: 0.5; stroke-opacity: 0.5; }
+        .grid .domain { opacity: 0;}
+        .labels-container { max-width: 1500px; margin: 0px 0px; text-align: center; }
+        .label-block { width: 300px; padding: 10px 40px; background-color:antiquewhite; }
+        .female { width: 50%; float: left; background-color:coral; }
+        .male { width: 50%; float: right; background-color:cornflowerblue; }
     </style>
   </head>
   <body>
+    <!-- <div class="states-grid container">
+        <div class="states-row row">
+            <div class="state-btn col">AK 02</div>
+            <div class="state-btn col">WA 53</div>
+        </div>
+    </div> -->
+
+    <!-- Main Viz Container -->
     <div id="a-container"></div>
+
+    <!-- X-Axis Labelss -->
+    <div class="labels-container container">
+        <div class="row">
+        <div class="label-block col-3">
+            <div class="label-gender">
+                <div class="female">Female</div>
+                <div class="male">Male</div>
+            </div>
+            <div class="label-race">Native</div>
+
+        </div>
+        <div class="label-block col-3">
+            <div class="label-gender">
+                <div class="female">Female</div>
+                <div class="male">Male</div>
+            </div>
+            <div class="label-race">Asian</div>
+
+        </div>
+        <div class="label-block col-3">
+            <div class="label-gender">
+                <div class="female">Female</div>
+                <div class="male">Male</div>
+            </div>
+            <div class="label-race">Black</div>
+
+        </div>
+        <div class="label-block col-3">
+            <div class="label-gender">
+                <div class="female">Female</div>
+                <div class="male">Male</div>
+            </div>
+            <div class="label-race">White</div>
+
+        </div>
+        </div>
+    </div>
     <script>
       drawCircles("#a-container");
     </script>
