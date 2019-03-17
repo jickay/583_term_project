@@ -1,9 +1,9 @@
 let selectedStates = 2;
 
 
-let vizHeight = 700;
-let rangeBase = 300;
-let yMargin = 150;
+let vizHeight = 600;
+let rangeBase = 200;
+let yMargin = 75;
 let ageScale = d3.scaleLinear().range([vizHeight-yMargin, rangeBase-yMargin]);
 
 
@@ -42,7 +42,7 @@ var drawCircles = function (domSelector) {
           .call(make_y_gridlines()
             .tickSize(-1800)
             .tickFormat("")
-          );          
+          );
 
       svg.selectAll('circle')
         .data(data.filter( d => {
@@ -51,24 +51,25 @@ var drawCircles = function (domSelector) {
         .enter()
           .append('circle')
             .attr('r', function (d) {
-              let radius = d.rate;
-              if (radius < 3) { radius = 3; }
-              if (radius !== radius) { radius = 3; }
+              let rate = d.rate * 50;
+              if (rate < 3) { rate = 3; }
+              if (rate !== rate) { rate = 3; }
+              let radius = Math.sqrt(rate/Math.PI);
               return radius;
             })
             .attr('cy', function (d, i) {
-              let base = 50,
+              let base = 50
                   margin = yMargin,
                   bottom = vizHeight;
               return (bottom - d.age * base) - margin;
             })
             .attr('cx', function (d, i) {
-              let base = 200,
+              let base = 130,
                   spacing = 170,
                   raceNum = getCX(d.race);
-              let margin = 200,
+              let margin = 160,
                   cx = raceNum * base + (spacing * raceNum),
-                  shift = 80;
+                  shift = 60;
               if (d.gender == "M") {
                 shift = shift;
               } else if (d.gender == "F") {

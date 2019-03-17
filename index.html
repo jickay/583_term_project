@@ -9,19 +9,38 @@
         /* Main containers */
         body { background-color:rgba(50,50,50,1.0);}
         svg { width: 100%; height: 100%; }
+        #graph-container { position: relative; width: 1200px; left: 50%; margin-left: -600px;}
         #a-container { width: 100%; height: auto; }
+
+        /* State containers */
+        #states-container { position: relative; width: 800px;  left: 50%; margin-left: -400px; padding-top: 50px; }
+        .state-row { height: 56px; margin-left: auto; margin-right: auto; }
+        .state { width: 50px; height: 50px; margin: 3px; padding-top: 10px; color: rgb(199, 199, 199); text-align: center; border: 1px solid rgb(173, 173, 173); border-radius: 3px; float: left;}
+        .state.alaska, .state.hawaii { margin-left: -50px; margin-right: 56px;}
+        /* .row-1 { margin-left: -56px; } */
+        .row-2 { margin-left: 56px; }
+        /* .row-3 { margin-left: -56px; } */
+        .row-4 { margin-left: 112px; }
+        .row-5 { margin-left: 112px; }
+
         /* Grid lines */
         .grid line { stroke:rgba(100,100,100,0.8); stroke-width: 0.5; stroke-opacity: 0.5; }
         .grid .domain { opacity: 0; }
+
         /* Data circles */
         .native.M { fill:rgba(155, 0, 0, 0.5); }
         .native.F { fill:rgba(255, 98, 98, 0.5); }
-        .asian.M { fill:rgba(255, 238, 0,0.5); }
-        .asian.F { fill:rgba(255, 247, 139,0.5); }
-        .black.M { fill:rgba(46, 34, 0, 0.5); }
-        .black.F { fill:rgba(71, 61, 33, 0.5); }
+        .asian.M { fill:rgba(255, 238, 0, 0.5); }
+        .asian.F { fill:rgba(255, 240, 109, 0.5); }
+        .black.M { fill:rgba(101, 0, 160, 0.5); }
+        .black.F { fill:rgba(127, 65, 163, 0.5); }
         .white.M { fill:rgba(255, 232, 170, 0.5); }
-        .white.F { fill:rgba(255, 232, 170,0.5); }        
+        .white.F { fill:rgba(255, 232, 170,0.5); }  
+
+        /* Grid labels */
+        .grid-labels { position: absolute; width: 1200px; left: 50%; margin-left: -600px; top: 433px; color: rgb(100, 100, 100); text-align: center;}
+        .grid-labels p { height: 24px; font-size: 0.8em; margin-bottom: 26px; background-color: rgba(50,50,50,1.0);}
+
         /* Bottom labels */
         .labels-container { max-width: 1500px; margin: 0px 10px; text-align: center; }
         .label-block { width: 300px; padding: 0px 40px 20px 40px; color: white; font-size: 2em; background-color:rgba(50,50,50,1.0); }
@@ -37,47 +56,128 @@
             <div class="state-btn col">WA 53</div>
         </div>
     </div> -->
+    <div class="grid-labels">
+        <p>85+</p>
+        <p>75-84</p>
+        <p>65-74</p>
+        <p>55-64</p>
+        <p>45-54</p>
+        <p>35-44</p>
+        <p>25-34</p>
+        <p>15-24</p>
+        <p>5-14</p>
+    </div>
 
-    <!-- Main Viz Container -->
-    <div id="a-container"></div>
-
-    <!-- X-Axis Labelss -->
-    <div class="labels-container container">
-        <div class="row">
-        <div class="label-block col-3">
-            <div class="label-gender">
-                <div class="female">Female</div>
-                <div class="male">Male</div>
-            </div>
-            <div class="label-race">Native</div>
-
+    <div id="states-container">
+        <div class="state-row row-1">
+            <div class="state alaska">AK</div>
+            <div class="state">WA</div>
+            <div class="state">MT</div>
+            <div class="state">ND</div>
+            <div class="state">MN</div>
+            <div class="state">WI</div>
+            <div class="state">MI</div>
+            <div class="state">NY</div>
+            <div class="state">VT</div>
+            <div class="state">NH</div>
+            <div class="state">ME</div>
+            <div class="state">MA</div>
+            <div class="state">CT</div>
+            <div class="state">RI</div>
         </div>
-        <div class="label-block col-3">
-            <div class="label-gender">
-                <div class="female">Female</div>
-                <div class="male">Male</div>
-            </div>
-            <div class="label-race">Asian</div>
-
+        <div class="state-row row-2">
+            <div class="state">OR</div>
+            <div class="state">ID</div>
+            <div class="state">WY</div>
+            <div class="state">SD</div>
+            <div class="state">NE</div>
+            <div class="state">IA</div>
+            <div class="state">IL</div>
+            <div class="state">IN</div>
+            <div class="state">OH</div>
+            <div class="state">PA</div>
         </div>
-        <div class="label-block col-3">
-            <div class="label-gender">
-                <div class="female">Female</div>
-                <div class="male">Male</div>
-            </div>
-            <div class="label-race">Black</div>
-
+        <div class="state-row row-3">
+            <div class="state hawaii">HI</div>
+            <div class="state">CA</div>
+            <div class="state">NV</div>
+            <div class="state">UT</div>
+            <div class="state">CO</div>
+            <div class="state">KS</div>
+            <div class="state">MO</div>
+            <div class="state">KY</div>
+            <div class="state">WV</div>
+            <div class="state">VA</div>
+            <div class="state">MD</div>
+            <div class="state">DE</div>
+            <div class="state">NJ</div>
         </div>
-        <div class="label-block col-3">
-            <div class="label-gender">
-                <div class="female">Female</div>
-                <div class="male">Male</div>
-            </div>
-            <div class="label-race">White</div>
-
+        <div class="state-row row-4">
+            <div class="state">AR</div>
+            <div class="state">NM</div>
+            <div class="state">OK</div>
+            <div class="state">AK</div>
+            <div class="state">TN</div>
+            <div class="state">NC</div>
         </div>
+        <div class="state-row row-5">
+            <div class="state">TX</div>
+            <div class="state">LA</div>
+            <div class="state">MS</div>
+            <div class="state">AL</div>
+            <div class="state">GA</div>
+            <div class="state">SC</div>
+            <div class="state">FL</div>
+
         </div>
     </div>
+
+    <div id="graph-container">
+
+        <!-- Main Viz Container -->
+        <div id="a-container"></div>
+
+        <!-- X-Axis Labelss -->
+        <div class="labels-container container">
+            <div class="row">
+            <div class="label-block col-3">
+                <div class="label-gender">
+                    <div class="female">Female</div>
+                    <div class="male">Male</div>
+                </div>
+                <div class="label-race">Native</div>
+
+            </div>
+            <div class="label-block col-3">
+                <div class="label-gender">
+                    <div class="female">Female</div>
+                    <div class="male">Male</div>
+                </div>
+                <div class="label-race">Asian</div>
+
+            </div>
+            <div class="label-block col-3">
+                <div class="label-gender">
+                    <div class="female">Female</div>
+                    <div class="male">Male</div>
+                </div>
+                <div class="label-race">Black</div>
+
+            </div>
+            <div class="label-block col-3">
+                <div class="label-gender">
+                    <div class="female">Female</div>
+                    <div class="male">Male</div>
+                </div>
+                <div class="label-race">White</div>
+
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+    
     <script>
       drawCircles("#a-container");
     </script>
