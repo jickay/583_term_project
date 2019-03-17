@@ -1,6 +1,11 @@
 let selectedStates = 2;
 
-let ageScale = d3.scaleLinear().range([1000, 200]);
+
+let vizHeight = 700;
+let rangeBase = 300;
+let yMargin = 150;
+let ageScale = d3.scaleLinear().range([vizHeight-yMargin, rangeBase-yMargin]);
+
 
 // gridlines in y axis function
 function make_y_gridlines() {		
@@ -29,13 +34,13 @@ var drawCircles = function (domSelector) {
 
       var svg = d3.select(domSelector)
         .append('svg')
-          .style('width','1500px')
-          .style('height','1100px');
+          .style('width','100%')
+          .style('height',vizHeight+'px');
       
       svg.append("g")			
           .attr("class", "grid")
           .call(make_y_gridlines()
-            .tickSize(-1500)
+            .tickSize(-1800)
             .tickFormat("")
           );          
 
@@ -52,10 +57,10 @@ var drawCircles = function (domSelector) {
               return radius;
             })
             .attr('cy', function (d, i) {
-              let base = 100,
-                  margin = 100;
-                  bottom = 900;
-              return (bottom - d.age * base) + margin;
+              let base = 50,
+                  margin = yMargin,
+                  bottom = vizHeight;
+              return (bottom - d.age * base) - margin;
             })
             .attr('cx', function (d, i) {
               let base = 200,
@@ -71,12 +76,17 @@ var drawCircles = function (domSelector) {
               }
               return cx + margin + shift;
             })
-            .attr('fill', function (d) {
-              let color = getRaceColor(d.race);
-              console.log(d.race, color);
-              return color;
-            })
-            .attr('opacity', 0.5);
+            // .attr('fill', function (d) {
+            //   let color = getRaceColor(d.race,d.gender);
+            //   console.log(d.race, color);
+            //   return color;
+            // })
+            // .attr('opacity', 0.5);
+      
+      svg.selectAll('circle').each( function (d) {
+        this.classList.add(d.race);
+        this.classList.add(d.gender);
+      });
     })
   
     
@@ -116,15 +126,26 @@ function getCX (race) {
   }
 }
 
+let color1 = d3.rgb(12, 67, 199);  // Red, Green, Blue
 
-function getRaceColor (race) {
-  // console.log(race);
-  switch(race) {
-    case "white": return "red";
-    case "black": return "green";
-    case "asian": return "blue";
-    case "native": return "purple";
+function getRaceColor (race,gender) {
+  console.log(race,gender);
+  if (gender == "F") {
+    switch(race) {
+      case "white": return rgba(0,0,0,0);
+      case "black": return "green";
+      case "asian": return "blue";
+      case "native": return color1;
+    }
+  } else {
+    switch(race) {
+      case "white": return "red";
+      case "black": return "green";
+      case "asian": return "blue";
+      case "native": return "purple";
+    }
   }
+
 }
 
 // Interactive events
