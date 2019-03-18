@@ -24,29 +24,29 @@
         .row-5 { margin-left: 112px; }
 
         /* Grid lines */
-        .grid line { stroke:rgba(100,100,100,0.8); stroke-width: 0.5; stroke-opacity: 0.5; }
+        .grid line { stroke:rgba(100,100,100,0.8); stroke-width: 1.0; stroke-opacity: 0.5; }
         .grid .domain { opacity: 0; }
 
         /* Data circles */
-        .native.M { fill:rgba(155, 0, 0, 0.5); }
-        .native.F { fill:rgba(255, 98, 98, 0.5); }
-        .asian.M { fill:rgba(255, 238, 0, 0.5); }
-        .asian.F { fill:rgba(255, 240, 109, 0.5); }
-        .black.M { fill:rgba(101, 0, 160, 0.5); }
-        .black.F { fill:rgba(127, 65, 163, 0.5); }
-        .white.M { fill:rgba(255, 232, 170, 0.5); }
-        .white.F { fill:rgba(255, 232, 170,0.5); }  
+        .native.M { fill: rgba(155, 0, 0, 1.0); }
+        .native.F { fill: rgba(255, 98, 98, 1.0); }
+        .asian.M { fill: rgba(255, 238, 0, 1.0); }
+        .asian.F { fill: rgba(255, 240, 109, 1.0); }
+        .black.M { fill: rgba(0, 206, 86, 1.0); }
+        .black.F { fill: rgba(70, 201, 124, 1.0); }
+        .white.M { fill: rgba(255, 136, 0, 1.0); }
+        .white.F { fill: rgba(255, 173, 79, 1.0); }  
 
         /* Grid labels */
         .grid-labels { position: absolute; width: 1200px; left: 50%; margin-left: -600px; top: 433px; color: rgb(100, 100, 100); text-align: center;}
         .grid-labels p { height: 24px; font-size: 0.8em; margin-bottom: 26px; background-color: rgba(50,50,50,1.0);}
 
         /* Bottom labels */
-        .labels-container { max-width: 1500px; margin: 0px 10px; text-align: center; }
-        .label-block { width: 300px; padding: 0px 40px 20px 40px; color: white; font-size: 2em; background-color:rgba(50,50,50,1.0); }
-        .label-gender { font-size: 0.5em; }
-        .female { width: 45%; float: left; margin: 5px; border-radius: 15px; background-color:coral; }
-        .male { width: 45%; float: right; margin: 5px; border-radius: 15px; background-color:cornflowerblue; }
+        .labels-container { max-width: 1500px; margin: 0px 10px; text-align: center; font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; }
+        .label-block { width: 300px; padding: 0px 40px 20px 40px; color: rgb(155, 155, 155); font-size: 2em; font-weight: lighter; background-color: none; }
+        .label-gender { font-size: 0.5em; font-weight: bold; color:rgb(50,50,50) }
+        .female { width: 47%; float: left; margin: 3px; border-radius: 5px; background-color:rgba(255, 101, 45, 0.5); }
+        .male { width: 47%; float: right; margin: 3px; border-radius: 5px; background-color:rgba(65, 132, 255, 0.5); }
     </style>
   </head>
   <body>

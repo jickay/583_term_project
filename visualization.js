@@ -1,5 +1,5 @@
-let selectedStates = 2;
-
+// let selectedStates = [2];
+let selectedStates = [2,15,25,37,4,6,7,10];
 
 let vizHeight = 600;
 let rangeBase = 200;
@@ -27,8 +27,8 @@ var drawCircles = function (domSelector) {
         rate: +d.CrudeRate
       }
     }).then( data => {
-      console.log("All data:");
-      console.log(data);
+      // console.log("All data:");
+      // console.log(data);
 
       ageScale.domain(d3.extent(data, function(d) { return d.age; }));
 
@@ -46,12 +46,18 @@ var drawCircles = function (domSelector) {
 
       svg.selectAll('circle')
         .data(data.filter( d => {
-          return d.state == selectedStates;
+          for (let i=0; i<selectedStates.length; i++) {
+            // console.log(selectedStates[i]);
+            if (d.state == selectedStates[i]) {
+              return true;
+            }
+          }
+          return false;
         }))
         .enter()
           .append('circle')
             .attr('r', function (d) {
-              let rate = d.rate * 50;
+              let rate = d.rate * 100;
               if (rate < 3) { rate = 3; }
               if (rate !== rate) { rate = 3; }
               let radius = Math.sqrt(rate/Math.PI);
@@ -82,7 +88,10 @@ var drawCircles = function (domSelector) {
             //   console.log(d.race, color);
             //   return color;
             // })
-            // .attr('opacity', 0.5);
+            .attr('opacity', d => {
+              console.log(1/selectedStates.length);
+              return 1 / (selectedStates.length + 1);
+            });
       
       svg.selectAll('circle').each( function (d) {
         this.classList.add(d.race);
