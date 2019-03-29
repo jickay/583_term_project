@@ -16,6 +16,7 @@
         #states-container { position: relative; width: 800px;  left: 50%; margin-left: -400px; padding-top: 50px; }
         .state-row { height: 56px; margin-left: auto; margin-right: auto; }
         .state { width: 50px; height: 50px; margin: 3px; padding-top: 10px; color: rgb(199, 199, 199); text-align: center; border: 1px solid rgb(173, 173, 173); border-radius: 3px; float: left;}
+        .state:hover, .state.clicked { background-color: rgba(196, 196, 196, 0.8); color:rgba(0,0,0,0.7); cursor: pointer; }
         .state.alaska, .state.hawaii { margin-left: -50px; margin-right: 56px;}
         /* .row-1 { margin-left: -56px; } */
         .row-2 { margin-left: 56px; }
@@ -71,9 +72,9 @@
     <div id="states-container">
         <div class="state-row row-1">
             <div class="state alaska">AK</div>
-            <div class="state">WA</div>
-            <div class="state">MT</div>
-            <div class="state">ND</div>
+            <div class="state" onclick="toggleState(this,53)">WA</div>
+            <div class="state" onclick="toggleState(this,54)">MT</div>
+            <div class="state" onclick="toggleState(this,55)">ND</div>
             <div class="state">MN</div>
             <div class="state">WI</div>
             <div class="state">MI</div>

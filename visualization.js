@@ -1,22 +1,42 @@
 // let selectedStates = [2];
-let selectedStates = [2,15,25,37,4,6,7,10];
+let selectedStates = [2];
+
+function toggleState(elem, stateNum) {
+  if (selectedStates.includes(stateNum)) {
+    // Remove state
+    selectedStates = selectedStates.filter(num => {
+      // console.log(num !== stateNum);
+      return num !== stateNum;
+    });
+    elem.classList.toggle("clicked");
+    // updateCircles();
+  } else {
+    // Add state
+    selectedStates.push(stateNum);
+    elem.classList.toggle("clicked");
+    // addCircles();
+  }
+  console.log("Current set of States: ");
+  console.log(selectedStates);
+  updateCircles('#a-container');
+}
 
 let vizHeight = 600;
 let rangeBase = 200;
 let yMargin = 75;
 let ageScale = d3.scaleLinear().range([vizHeight-yMargin, rangeBase-yMargin]);
 
+let modData = {};
 
 // gridlines in y axis function
 function make_y_gridlines() {		
   return d3.axisLeft(ageScale)
-} 
+}
 
-var drawCircles = function (domSelector) {
-
+function drawCircles(domSelector) {
 
     // Import dataset
-    d3.csv("./data.txt", d => {
+    modData = d3.csv("./data.txt", d => {
       return {
         state: +d.StateCode,
         age: convertAgeCodes(d.TenYearAgeGroupsCode),
@@ -26,7 +46,9 @@ var drawCircles = function (domSelector) {
         population: +d.Population,
         rate: +d.CrudeRate
       }
-    }).then( data => {
+    });
+    
+    modData.then( data => {
       // console.log("All data:");
       // console.log(data);
 
@@ -45,63 +67,176 @@ var drawCircles = function (domSelector) {
           );
 
       svg.selectAll('circle')
-        .data(data.filter( d => {
-          for (let i=0; i<selectedStates.length; i++) {
-            // console.log(selectedStates[i]);
-            if (d.state == selectedStates[i]) {
-              return true;
-            }
-          }
-          return false;
-        }))
-        .enter()
-          .append('circle')
-            .attr('r', function (d) {
-              let rate = d.rate * 100;
-              if (rate < 3) { rate = 3; }
-              if (rate !== rate) { rate = 3; }
-              let radius = Math.sqrt(rate/Math.PI);
-              return radius;
-            })
-            .attr('cy', function (d, i) {
-              let base = 50
-                  margin = yMargin,
-                  bottom = vizHeight;
-              return (bottom - d.age * base) - margin;
-            })
-            .attr('cx', function (d, i) {
-              let base = 130,
-                  spacing = 170,
-                  raceNum = getCX(d.race);
-              let margin = 160,
-                  cx = raceNum * base + (spacing * raceNum),
-                  shift = 60;
-              if (d.gender == "M") {
-                shift = shift;
-              } else if (d.gender == "F") {
-                shift = -shift;
+          .data(data.filter( d => {
+            for (let i=0; i<selectedStates.length; i++) {
+              // console.log(selectedStates[i]);
+              if (d.state == selectedStates[i]) {
+                return true;
               }
-              return cx + margin + shift;
-            })
-            // .attr('fill', function (d) {
-            //   let color = getRaceColor(d.race,d.gender);
-            //   console.log(d.race, color);
-            //   return color;
-            // })
-            .attr('opacity', d => {
-              console.log(1/selectedStates.length);
-              return 1 / (selectedStates.length + 1);
-            });
-      
-      svg.selectAll('circle').each( function (d) {
-        this.classList.add(d.race);
-        this.classList.add(d.gender);
-      });
+            }
+            return false;
+          }))
+          .enter()
+          .append('circle')
+              .attr('r', function (d) {
+                let rate = d.rate * 100;
+                if (rate < 3) { rate = 3; }
+                if (rate !== rate) { rate = 3; }
+                let radius = Math.sqrt(rate/Math.PI);
+                return radius;
+              })
+              .attr('cy', function (d, i) {
+                let base = 50
+                    margin = yMargin,
+                    bottom = vizHeight;
+                return (bottom - d.age * base) - margin;
+              })
+              .attr('cx', function (d, i) {
+                let base = 130,
+                    spacing = 170,
+                    raceNum = getCX(d.race);
+                let margin = 160,
+                    cx = raceNum * base + (spacing * raceNum),
+                    shift = 60;
+                if (d.gender == "M") {
+                  shift = shift;
+                } else if (d.gender == "F") {
+                  shift = -shift;
+                }
+                return cx + margin + shift;
+              })
+              // .attr('fill', function (d) {
+              //   let color = getRaceColor(d.race,d.gender);
+              //   console.log(d.race, color);
+              //   return color;
+              // })
+              .attr('opacity', d => {
+                console.log(1/selectedStates.length);
+                return 1 / (selectedStates.length + 1);
+              });
+
+        
+        svg.selectAll('circle').each( function (d) {
+          this.classList.add(d.race);
+          this.classList.add(d.gender);
+        });
     })
   
     
 };
 
+function updateCircles() {
+  console.log("Updating circles");
+  console.log(selectedStates);
+  // Import dataset
+  // let allData = d3.csv("./data.txt", d => {
+  //   let modData = {
+  //     state: +d.StateCode,
+  //     age: convertAgeCodes(d.TenYearAgeGroupsCode),
+  //     gender: d.GenderCode,
+  //     race: convertRaceCodes(d.RaceCode),
+  //     deaths: +d.Deaths,
+  //     population: +d.Population,
+  //     rate: +d.CrudeRate
+  //   }
+  //   return modData;
+  // });
+  
+    // modData.then( data => {
+    //   data.filter(d => {
+    //     for (let i=0; i<selectedStates.length; i++) {
+    //       // console.log(selectedStates[i]);
+    //       if (d.state == selectedStates[i]) {
+    //         console.log(selectedStates[i]);
+    //         return true;
+    //       }
+    //     }
+    //     return false;
+    //   });
+    // console.log(data);
+
+    modData.then(data => {
+    let newData = data.filter(d => {
+          for (let i=0; i<selectedStates.length; i++) {
+            // console.log(selectedStates[i]);
+            if (d.state == selectedStates[i]) {
+              console.log(selectedStates[i]);
+              return true;
+            }
+          }
+          return false;
+        });
+
+    console.log(newData);
+
+    var svg = d3.select("#a-container")
+        .selectAll('circle').data(newData);
+        // .data(data).filter(d => {
+        //   console.log(d);
+        //       for (let i=0; i<selectedStates.length; i++) {
+        //         // console.log(selectedStates[i]);
+        //         if (d.state == selectedStates[i]) {
+        //           // console.log(selectedStates[i]);
+        //           return true;
+        //         }
+        //       }
+        //       return false;
+        //     });
+
+    console.log("Clearing data");
+    svg.exit().remove();
+
+    console.log("Entering data");
+
+    svg.enter().append('circle').merge(svg)
+        .attr('r', function (d) {
+          let rate = d.rate * 100;
+          if (rate < 3) { rate = 3; }
+          if (rate !== rate) { rate = 3; }
+          let radius = Math.sqrt(rate/Math.PI);
+          console.log(d.state);
+          console.log(radius);
+
+          return radius;
+        })
+        .attr('cy', function (d, i) {
+          let base = 50
+              margin = yMargin,
+              bottom = vizHeight;
+          return (bottom - d.age * base) - margin;
+        })
+        .attr('cx', function (d, i) {
+          let base = 130,
+              spacing = 170,
+              raceNum = getCX(d.race);
+          let margin = 160,
+              cx = raceNum * base + (spacing * raceNum),
+              shift = 60;
+          if (d.gender == "M") {
+            shift = shift;
+          } else if (d.gender == "F") {
+            shift = -shift;
+          }
+          return cx + margin + shift;
+        })
+        // .attr('fill', function (d) {
+        //   let color = getRaceColor(d.race,d.gender);
+        //   console.log(d.race, color);
+        //   return color;
+        // })
+        .attr('opacity', d => {
+          console.log(1/selectedStates.length);
+          return 1 / (selectedStates.length + 1);
+        });
+    
+    // svg.exit().remove();
+
+    // svg.selectAll('circle').each( function (d) {
+    //     this.classList.add(d.race);
+    //     this.classList.add(d.gender);
+    //   });
+  });
+}
 
 function convertRaceCodes (code) {
   switch(code) {
