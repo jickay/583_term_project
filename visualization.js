@@ -1,5 +1,5 @@
 // let selectedStates = [2];
-let selectedStates = [2];
+let selectedStates = [];
 
 function toggleState(elem, stateNum) {
   if (selectedStates.includes(stateNum)) {
@@ -125,7 +125,7 @@ function drawCircles(domSelector) {
     
 };
 
-function updateCircles() {
+function updateCircles(domSelector) {
   console.log("Updating circles");
   console.log(selectedStates);
   // Import dataset
@@ -156,85 +156,82 @@ function updateCircles() {
     // console.log(data);
 
     modData.then(data => {
-    let newData = data.filter(d => {
-          for (let i=0; i<selectedStates.length; i++) {
-            // console.log(selectedStates[i]);
-            if (d.state == selectedStates[i]) {
-              console.log(selectedStates[i]);
-              return true;
-            }
-          }
-          return false;
+        let newData = data.filter(d => {
+              for (let i=0; i<selectedStates.length; i++) {
+                // console.log(selectedStates[i]);
+                if (d.state == selectedStates[i]) {
+                  console.log(selectedStates[i]);
+                  return true;
+                }
+              }
+              return false;
+            });
+
+        let svg = d3.select("svg")
+            .selectAll('circle').data(newData);
+            // .data(data).filter(d => {
+            //   console.log(d);
+            //       for (let i=0; i<selectedStates.length; i++) {
+            //         // console.log(selectedStates[i]);
+            //         if (d.state == selectedStates[i]) {
+            //           // console.log(selectedStates[i]);
+            //           return true;
+            //         }
+            //       }
+            //       return false;
+            //     });
+
+        console.log("Clearing data");
+        svg.exit().remove();
+
+        console.log("Entering data");
+
+        svg.enter().append('circle')
+            .merge(svg)
+            .attr('r', function (d) {
+              let rate = d.rate * 100;
+              if (rate < 3) { rate = 3; }
+              if (rate !== rate) { rate = 3; }
+              let radius = Math.sqrt(rate/Math.PI);
+              return radius;
+            })
+            .attr('cy', function (d, i) {
+              let base = 50
+                  margin = yMargin,
+                  bottom = vizHeight;
+              return (bottom - d.age * base) - margin;
+            })
+            .attr('cx', function (d, i) {
+              let base = 130,
+                  spacing = 170,
+                  raceNum = getCX(d.race);
+              let margin = 160,
+                  cx = raceNum * base + (spacing * raceNum),
+                  shift = 60;
+              if (d.gender == "M") {
+                shift = shift;
+              } else if (d.gender == "F") {
+                shift = -shift;
+              }
+              return cx + margin + shift;
+            })
+            // .attr('fill', function (d) {
+            //   let color = getRaceColor(d.race,d.gender);
+            //   console.log(d.race, color);
+            //   return color;
+            // })
+            .attr('opacity', d => {
+              // console.log(1/selectedStates.length);
+              return 1 / (selectedStates.length + 1);
+            });
+
+        d3.select('svg').selectAll('circle').each( function (d) {
+            this.classList = "";
+            this.classList.add(d.race);
+            this.classList.add(d.gender);
         });
 
-    console.log(newData);
 
-    var svg = d3.select("#a-container")
-        .selectAll('circle').data(newData);
-        // .data(data).filter(d => {
-        //   console.log(d);
-        //       for (let i=0; i<selectedStates.length; i++) {
-        //         // console.log(selectedStates[i]);
-        //         if (d.state == selectedStates[i]) {
-        //           // console.log(selectedStates[i]);
-        //           return true;
-        //         }
-        //       }
-        //       return false;
-        //     });
-
-    console.log("Clearing data");
-    svg.exit().remove();
-
-    console.log("Entering data");
-
-    svg.enter().append('circle').merge(svg)
-        .attr('r', function (d) {
-          let rate = d.rate * 100;
-          if (rate < 3) { rate = 3; }
-          if (rate !== rate) { rate = 3; }
-          let radius = Math.sqrt(rate/Math.PI);
-          console.log(d.state);
-          console.log(radius);
-
-          return radius;
-        })
-        .attr('cy', function (d, i) {
-          let base = 50
-              margin = yMargin,
-              bottom = vizHeight;
-          return (bottom - d.age * base) - margin;
-        })
-        .attr('cx', function (d, i) {
-          let base = 130,
-              spacing = 170,
-              raceNum = getCX(d.race);
-          let margin = 160,
-              cx = raceNum * base + (spacing * raceNum),
-              shift = 60;
-          if (d.gender == "M") {
-            shift = shift;
-          } else if (d.gender == "F") {
-            shift = -shift;
-          }
-          return cx + margin + shift;
-        })
-        // .attr('fill', function (d) {
-        //   let color = getRaceColor(d.race,d.gender);
-        //   console.log(d.race, color);
-        //   return color;
-        // })
-        .attr('opacity', d => {
-          console.log(1/selectedStates.length);
-          return 1 / (selectedStates.length + 1);
-        });
-    
-    // svg.exit().remove();
-
-    // svg.selectAll('circle').each( function (d) {
-    //     this.classList.add(d.race);
-    //     this.classList.add(d.gender);
-    //   });
   });
 }
 
