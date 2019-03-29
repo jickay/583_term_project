@@ -128,6 +128,10 @@ function drawCircles(domSelector) {
 function updateCircles(domSelector) {
   console.log("Updating circles");
   console.log(selectedStates);
+
+  var t = d3.transition()
+      .duration(600);
+
   // Import dataset
   // let allData = d3.csv("./data.txt", d => {
   //   let modData = {
@@ -182,7 +186,10 @@ function updateCircles(domSelector) {
             //     });
 
         console.log("Clearing data");
-        svg.exit().remove();
+        svg.exit()
+          .transition(t)
+            .style('fill-opacity', 1e-6)
+          .remove();
 
         console.log("Entering data");
 
@@ -220,10 +227,11 @@ function updateCircles(domSelector) {
             //   console.log(d.race, color);
             //   return color;
             // })
+          .transition(t)
             .attr('opacity', d => {
               // console.log(1/selectedStates.length);
               return 1 / (selectedStates.length + 1);
-            });
+            })
 
         d3.select('svg').selectAll('circle').each( function (d) {
             this.classList = "";
